@@ -7,7 +7,7 @@ author = "Alper Buluc"
 [dependencies]
 hmac = "0.12.1"
 chrono = "0.4.19"
-serde = "1.0.137"
+serde = { version = "1.0.137", features = ["derive"] }
 serde_json = "1.0.81"
-reqwest = "0.11.11"
+reqwest = { version = "0.11.11", features = ["json"] }
 tokio = { version = "1", features = ["macros"] }

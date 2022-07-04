@@ -1,4 +1,6 @@
-#[derive(Debug)]
+use serde::Deserialize;
+
+#[derive(Deserialize, Debug)]
 pub struct ExchangeInfo {
     pub timezone: String,
     pub server_time: u64,
@@ -10,7 +12,7 @@ pub struct ExchangeInfo {
     pub code: u64,
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 struct Symbol {
     pub id: u64,
     pub name: String,
@@ -34,7 +36,7 @@ struct Symbol {
     pub minimum_limit_order_price: f64,
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 struct SymbolFilter {
     pub filter_type: String,
     pub min_price: f64,
@@ -45,13 +47,13 @@ struct SymbolFilter {
     pub max_amount: Option<f64>,
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 struct Address {
     pub min_len: Option<u64>,
     pub max_len: Option<u64>,
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Tag {
     pub enable: bool,
     pub name: Option<String>,
@@ -59,7 +61,7 @@ pub struct Tag {
     pub max_len: Option<f64>,
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 struct Currency {
     pub id: u64,
     pub symbol: String,
@@ -77,7 +79,7 @@ struct Currency {
     pub is_new: bool,
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct CurrencyOperationStatus {
     pub currency_symbol: String,
     pub withdraw_disabled: bool,
