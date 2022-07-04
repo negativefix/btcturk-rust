@@ -8,7 +8,9 @@ use chrono::{self, Utc, DateTime};
 // move api key and screet to env
 const BASE_URL: &str = "https://api.btcturk.com";
 
+mod types;
 mod errors;
+
 pub use errors::BTCTRResult;
 use reqwest::Response;
 
