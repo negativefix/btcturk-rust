@@ -1,32 +1,40 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct ExchangeInfo {
-    pub timezone: String,
-    pub server_time: u64,
-    pub symbols: Vec<Symbol>,
-    pub currencies: Vec<Currency>,
-    pub currecy_operation_blocks: Vec<CurrencyOperationStatus>,
+    data: Data,
     pub success: bool,
     pub message: String,
     pub code: u64,
 }
 
 #[derive(Deserialize, Debug)]
-struct Symbol {
+#[serde(rename_all = "camelCase")]
+pub struct Data {
+    pub time_zone: String,
+    pub server_time: u64,
+    pub symbols: Vec<Symbol>,
+    pub currencies: Vec<Currency>,
+    pub currency_operation_blocks: Vec<CurrencyOperationStatus>,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Symbol {
     pub id: u64,
     pub name: String,
     pub name_normalized: String,
     pub status: String,
     pub numerator: String,
     pub denominator: String,
-    pub numeral_scale: u64,
+    pub numerator_scale: u64,
     pub denominator_scale: u64,
     pub has_fraction: bool,
     pub filters: Vec<SymbolFilter>,
     pub order_methods: Vec<String>,
     pub display_format: String,
-    pub commisson_from_numerator: bool,
+    pub commission_from_numerator: bool,
     pub order: u64,
     pub price_rounding: bool,
     pub is_new: bool,
@@ -36,24 +44,27 @@ struct Symbol {
     pub minimum_limit_order_price: f64,
 }
 
-#[derive(Deserialize, Debug)]
-struct SymbolFilter {
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct SymbolFilter {
     pub filter_type: String,
-    pub min_price: f64,
-    pub max_price: f64,
-    pub tick_size: u64,
-    pub min_exchange_value: f64,
-    pub min_amount: Option<f64>,
-    pub max_amount: Option<f64>,
+    pub min_price: String,
+    pub max_price: String,
+    pub tick_size: String,
+    pub min_exchange_value: String,
+    pub min_amount: Option<String>,
+    pub max_amount: Option<String>,
 }
 
 #[derive(Deserialize, Debug)]
-struct Address {
+#[serde(rename_all = "camelCase")]
+pub struct Address {
     pub min_len: Option<u64>,
     pub max_len: Option<u64>,
 }
 
 #[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct Tag {
     pub enable: bool,
     pub name: Option<String>,
@@ -62,7 +73,8 @@ pub struct Tag {
 }
 
 #[derive(Deserialize, Debug)]
-struct Currency {
+#[serde(rename_all = "camelCase")]
+pub struct Currency {
     pub id: u64,
     pub symbol: String,
     pub min_withdrawal: f64,
@@ -80,9 +92,10 @@ struct Currency {
 }
 
 #[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct CurrencyOperationStatus {
     pub currency_symbol: String,
-    pub withdraw_disabled: bool,
+    pub withdrawal_disabled: bool,
     pub deposit_disabled: bool,
 }
 
