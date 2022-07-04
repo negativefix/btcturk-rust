@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct ExchangeInfo {
     pub timezone: String,
     pub server_time: u64,
@@ -9,6 +10,7 @@ pub struct ExchangeInfo {
     pub code: u64,
 }
 
+#[derive(Debug)]
 struct Symbol {
     id: u64,
     name: String,
@@ -32,6 +34,7 @@ struct Symbol {
     minimum_limit_order_price: f64,
 }
 
+#[derive(Debug)]
 struct SymbolFilter {
     filter_type: String,
     min_price: f64,
@@ -42,11 +45,13 @@ struct SymbolFilter {
     max_amount: Option<f64>,
 }
 
+#[derive(Debug)]
 struct Address {
     min_len: Option<u64>,
     max_len: Option<u64>,
 }
 
+#[derive(Debug)]
 struct Tag {
     enable: bool,
     name: Option<String>,
@@ -54,6 +59,7 @@ struct Tag {
     max_len: Option<f64>,
 }
 
+#[derive(Debug)]
 struct Currency {
     id: u64,
     symbol: String,
@@ -71,6 +77,7 @@ struct Currency {
     is_new: bool,
 }
 
+#[derive(Debug)]
 struct CurrencyOperationStatus {
     currency_symbol: String,
     withdraw_disabled: bool,
