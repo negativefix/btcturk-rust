@@ -13,6 +13,7 @@ mod errors;
 
 pub use errors::BTCTRResult;
 use reqwest::Response;
+use types::ExchangeInfo;
 
 // Config for authenticated requests
 // better name would be AuthConfig
@@ -47,22 +48,27 @@ impl Api {
     }
     
     // Public api endpoints
-    pub fn exchange_info() -> BTCTRResult<Response> {}
-    pub fn pair(pair_symbol: &str) -> BTCTRResult<Response> {}
-    pub fn currency(symbol: &str) -> BTCTRResult<Response> {}
-    pub fn order_book(pair_symbol: &str, limit: Option<u32>) -> BTCTRResult<Response> {}
-    pub fn trades(pair_symbol: &str, last: Option<u32>) -> BTCTRResult<Response> {}
-    pub fn ohlc_data(pair_symbol: &str, from: u64, to: u64) -> BTCTRResult<Response> {}
-    pub fn kline_data(pair_symbol: &str, resolution: u64, from: u64, to: u64) -> BTCTRResult<Response> {}
+    pub async fn exchange_info(&self) -> BTCTRResult<ExchangeInfo> {
+        let response = self.fetch("/api/v2/server/exchangeinfo").await?;
+        let json: ExchangeInfo = response.json().await?;
+        Ok(json)
+    }
+
+    pub fn pair(pair_symbol: &str) {}
+    pub fn currency(symbol: &str) {}
+    pub fn order_book(pair_symbol: &str, limit: Option<u32>) {}
+    pub fn trades(pair_symbol: &str, last: Option<u32>) {}
+    pub fn ohlc_data(pair_symbol: &str, from: u64, to: u64) {}
+    pub fn kline_data(pair_symbol: &str, resolution: u64, from: u64, to: u64) {}
 
     // Private api endpoints
-    pub fn balances() -> BTCTRResult<Response> {}
-    pub fn all_transactions() -> BTCTRResult<Response> {}
-    pub fn fiat_transactions() -> BTCTRResult<Response> {}
-    pub fn crypto_transactions() -> BTCTRResult<Response> {}
-    pub fn open_orders() -> BTCTRResult<Response> {}
-    pub fn all_orders() -> BTCTRResult<Response> {}
-    pub fn single_order(order_id: u64) -> BTCTRResult<Response> {}
+    pub fn balances() {}
+    pub fn all_transactions() {}
+    pub fn fiat_transactions() {}
+    pub fn crypto_transactions() {}
+    pub fn open_orders() {}
+    pub fn all_orders() {}
+    pub fn single_order(order_id: u64) {}
     pub fn submit_order(
         quantity: f64, 
         price: f64, 
@@ -71,7 +77,7 @@ impl Api {
         order_method: &str, 
         order_type: &str, 
         pair_symbol: &str
-        ) -> BTCTRResult<Response> {}
+        ) {}
 
     pub async fn fetch(&self, endpoint: &str) -> BTCTRResult<Response> {
         let url = format!("{}{}", self.base_url, endpoint);
@@ -89,11 +95,7 @@ mod tests {
     #[tokio::test]
     async fn exchange_info() -> BTCTRResult<()> {
         let api = Api::new(BASE_URL, None);
-        let result = api.fetch("/api/v2/server/exchange_info").await?;
-        let status = &result.status();
-        let json = result.text().await?;
-        println!("{:?} {:?}", json, status);
-        // assert_eq!(result, 4);
+        let _json = api.exchange_info().await?;
         Ok(())
     }
 }
