@@ -12,8 +12,8 @@ mod types;
 mod errors;
 
 pub use errors::BTCTRResult;
-use reqwest::Response;
-use types::ExchangeInfo;
+use reqwest::{Response, Url};
+use types::{ExchangeInfo, Pair};
 
 // Config for authenticated requests
 // better name would be AuthConfig
@@ -54,7 +54,16 @@ impl Api {
         Ok(json)
     }
 
-    pub fn pair(pair_symbol: &str) {}
+    // no need to pass self since it wont be used within the function
+    pub async fn pair(&self, pair_symbol: Option<&str>) -> BTCTRResult<Pair> {
+        let params = &[("symbol", pair_symbol.unwrap_or(""))];
+        let endoint = format!("{}{}", BASE_URL, "/api/v2/ticker/ticker");
+        let url = Url::parse_with_params(&endoint, params)?;
+        println!("{:?}", url.to_string());
+        let json = reqwest::get(url.as_str()).await?.json().await?;
+        Ok(json)
+    }
+
     pub fn currency(symbol: &str) {}
     pub fn order_book(pair_symbol: &str, limit: Option<u32>) {}
     pub fn trades(pair_symbol: &str, last: Option<u32>) {}
@@ -98,4 +107,16 @@ mod tests {
         let _json = api.exchange_info().await?;
         Ok(())
     }
+
+    #[tokio::test]
+    async fn ticker_pair() -> BTCTRResult<()> {
+        let api = Api::new(BASE_URL, None);
+        let _json = api.pair(None).await?;
+        Ok(())
+    }
+
+
+
+
+
 }
