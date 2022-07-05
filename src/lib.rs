@@ -55,16 +55,22 @@ impl Api {
     }
 
     // no need to pass self since it wont be used within the function
+    // TODO - move this into a module
     pub async fn pair(&self, pair_symbol: Option<&str>) -> BTCTRResult<Pair> {
-        let params = &[("symbol", pair_symbol.unwrap_or(""))];
-        let endoint = format!("{}{}", BASE_URL, "/api/v2/ticker/ticker");
-        let url = Url::parse_with_params(&endoint, params)?;
+        let endpoint = format!("{}{}", BASE_URL, "/api/v2/ticker/ticker");
+        let url = match pair_symbol {
+            Some(pair) =>Url::parse_with_params(&endpoint, &[("pairSymbol", pair)])?,
+            None => Url::parse(&endpoint)?,
+        };
         println!("{:?}", url.to_string());
         let json = reqwest::get(url.as_str()).await?.json().await?;
         Ok(json)
     }
 
-    pub fn currency(symbol: &str) {}
+    pub fn currency(symbol: &str) {
+        // symbol is required
+    }
+    
     pub fn order_book(pair_symbol: &str, limit: Option<u32>) {}
     pub fn trades(pair_symbol: &str, last: Option<u32>) {}
     pub fn ohlc_data(pair_symbol: &str, from: u64, to: u64) {}
