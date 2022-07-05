@@ -1,3 +1,5 @@
+use core::f64;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug)]
@@ -97,5 +99,35 @@ pub struct CurrencyOperationStatus {
     pub currency_symbol: String,
     pub withdrawal_disabled: bool,
     pub deposit_disabled: bool,
+}
+
+// types for ticker endpoint
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Pair {
+    data: Option<Vec<PairData>>,
+    success: bool,
+    message: String,
+    code: u64,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct PairData {
+    pair: String,
+    pair_normalized: String,
+    last: f64,
+    high: f64,
+    low: f64,
+    bid: f64,
+    ask: f64,
+    open: f64,
+    volume: f64,
+    average: f64,
+    daily: f64,
+    daily_percent: f64,
+    denominator_symbol: String,
+    numerator_scale: String,
+    order: f64,
 }
 
