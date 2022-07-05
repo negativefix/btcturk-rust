@@ -6,7 +6,7 @@ use chrono::{self, Utc, DateTime};
 // TODO - check if utc nonces matches the server
 
 // move api key and screet to env
-const BASE_URL: &str = "https://api.btcturk.com";
+pub const BASE_URL: &str = "https://api.btcturk.com";
 
 mod types;
 mod errors;
@@ -105,33 +105,3 @@ impl Api {
 }
 
 
-#[cfg(test)]
-mod tests {
-    use crate::{Api, BASE_URL, BTCTRResult};
-
-    #[tokio::test]
-    async fn exchange_info() -> BTCTRResult<()> {
-        let api = Api::new(BASE_URL, None);
-        let _json = api.exchange_info().await?;
-        Ok(())
-    }
-
-    #[tokio::test]
-    async fn ticker_pair() -> BTCTRResult<()> {
-        let api = Api::new(BASE_URL, None);
-        let _json = api.pair(None).await?;
-        Ok(())
-    }
-
-    #[tokio::test]
-    async fn ticker_currecny() -> BTCTRResult<()> {
-        let api = Api::new(BASE_URL, None);
-        let _json = api.currency("BTCTRY").await?;
-        Ok(())
-    }
-
-
-
-
-
-}
