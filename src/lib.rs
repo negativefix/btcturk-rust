@@ -62,7 +62,6 @@ impl Api {
             Some(pair) =>Url::parse_with_params(&endpoint, &[("pairSymbol", pair)])?,
             None => Url::parse(&endpoint)?,
         };
-        println!("{:?}", url.to_string());
         let json = reqwest::get(url.as_str()).await?.json().await?;
         Ok(json)
     }
