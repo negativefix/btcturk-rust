@@ -57,7 +57,7 @@ impl Api {
     // no need to pass self since it wont be used within the function
     // TODO - move this into a module
     pub async fn pair(&self, pair_symbol: Option<&str>) -> BTCTRResult<Pair> {
-        let endpoint = format!("{}{}", BASE_URL, "/api/v2/ticker/ticker");
+        let endpoint = format!("{}{}", self.base_url, "/api/v2/ticker");
         let url = match pair_symbol {
             Some(pair) =>Url::parse_with_params(&endpoint, &[("pairSymbol", pair)])?,
             None => Url::parse(&endpoint)?,
@@ -66,8 +66,11 @@ impl Api {
         Ok(json)
     }
 
-    pub fn currency(symbol: &str) {
-        // symbol is required
+    pub async fn currency(&self, symbol: &str) -> BTCTRResult<Pair>{
+        let endpoint = format!("{}{}", self.base_url, "/api/v2/ticker/currency");
+        let url = Url::parse_with_params(&endpoint, &[("symbol", symbol)])?;
+        let json = reqwest::get(url.as_str()).await?.json().await?;
+        Ok(json)
     }
     
     pub fn order_book(pair_symbol: &str, limit: Option<u32>) {}
@@ -117,6 +120,13 @@ mod tests {
     async fn ticker_pair() -> BTCTRResult<()> {
         let api = Api::new(BASE_URL, None);
         let _json = api.pair(None).await?;
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn ticker_currecny() -> BTCTRResult<()> {
+        let api = Api::new(BASE_URL, None);
+        let _json = api.currency("BTCTRY").await?;
         Ok(())
     }
 
