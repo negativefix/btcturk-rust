@@ -107,7 +107,7 @@ pub struct CurrencyOperationStatus {
 pub struct Pair {
     data: Option<Vec<PairData>>,
     success: bool,
-    message: String,
+    message: Option<String>,
     code: u64,
 }
 
@@ -127,7 +127,7 @@ pub struct PairData {
     daily: f64,
     daily_percent: f64,
     denominator_symbol: String,
-    numerator_scale: String,
+    numerator_symbol: String,
     order: f64,
 }
 
