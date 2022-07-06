@@ -202,6 +202,20 @@ pub struct OhlcPair {
     daily_change_percentage: f64,
 }
 
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Kline {
+    s: String,
+    t: Vec<u64>,
+    h: Vec<f64>,
+    o: Vec<f64>,
+    l: Vec<f64>,
+    c: Vec<f64>,
+    v: Vec<f64>,
+}
+
+
+
 
 
 
