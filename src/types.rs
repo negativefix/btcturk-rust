@@ -148,3 +148,42 @@ pub struct OrderBookData {
    pub asks: Vec<Vec<String>>,
 }
 
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Trade {
+    pub data: Option<TradeData>,
+    pub success: bool,
+    pub message: Option<String>,
+    pub code: u32,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct TradeData {
+    pub data: Option<Vec<TradePair>>,
+    pub success: bool,
+    pub message: Option<String>,
+    pub code: u32,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct TradePair {
+    pub pair: String,
+    pub pair_normalized: String,
+    pub numerator: String,
+    pub denominator: String,
+    pub date: u64,
+    pub tid: String,
+    pub price: String,
+    pub amount: String,
+    pub side: String
+}
+
+
+
+
+
+
+
+
