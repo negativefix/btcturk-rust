@@ -13,7 +13,7 @@ mod errors;
 
 pub use errors::BTCTRResult;
 use reqwest::{Response, Url};
-use types::{ExchangeInfo, Pair, OrderBook};
+use types::{ExchangeInfo, Pair, OrderBook, Trade};
 
 // Config for authenticated requests
 // better name would be AuthConfig
@@ -84,7 +84,19 @@ impl Api {
         Ok(json)
     }
 
-    pub fn trades(pair_symbol: &str, last: Option<u32>) {}
+    pub async fn trades(&self, pair_symbol: &str, last: Option<u32>) -> BTCTRResult<Trade> {
+        let endpoint = format!("{}{}", self.base_url, "/api/v2/trades");
+        let pair = &[("pairSymbol", pair_symbol)];
+        let mut url = Url::parse_with_params(&endpoint, pair)?;
+        if let Some(l) = last {
+            url.query_pairs_mut().append_pair("last", &l.to_string());
+        }
+        let json = reqwest::get(url.as_str()).await?.json().await?;
+        Ok(json)
+    }
+
+
+    // Graph Data
     pub fn ohlc_data(pair_symbol: &str, from: u64, to: u64) {}
     pub fn kline_data(pair_symbol: &str, resolution: u64, from: u64, to: u64) {}
 
