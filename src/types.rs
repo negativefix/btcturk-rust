@@ -180,8 +180,27 @@ pub struct TradePair {
     pub side: String
 }
 
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct Ohlc {
+    data: Vec<OhlcPair>,
+}
 
-
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct OhlcPair {
+    pair: String,
+    time: u64,
+    open: f64,
+    high: f64,
+    low: f64,
+    close: f64,
+    volume: f64,
+    total: f64,
+    average: f64,
+    daily_change_amount: f64,
+    daily_change_percentage: f64,
+}
 
 
 
