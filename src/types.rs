@@ -134,7 +134,7 @@ pub struct PairData {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct OrderBook {
-    pub data: OrderBookData,
+    pub data: Option<OrderBookData>,
     pub success: bool,
     pub message: Option<String>,
     pub code: u32,
