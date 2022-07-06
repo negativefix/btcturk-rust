@@ -131,3 +131,20 @@ pub struct PairData {
     order: f64,
 }
 
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct OrderBook {
+    pub data: OrderBookData,
+    pub success: bool,
+    pub message: Option<String>,
+    pub code: u32,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct OrderBookData {
+   pub timestamp: String,
+   pub bids: Vec<Vec<String>>,
+   pub asks: Vec<Vec<String>>,
+}
+
