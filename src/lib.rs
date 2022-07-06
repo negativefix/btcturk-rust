@@ -13,7 +13,7 @@ mod errors;
 
 pub use errors::BTCTRResult;
 use reqwest::{Response, Url};
-use types::{ExchangeInfo, Pair};
+use types::{ExchangeInfo, Pair, OrderBook};
 
 // Config for authenticated requests
 // better name would be AuthConfig
@@ -59,7 +59,7 @@ impl Api {
     pub async fn pair(&self, pair_symbol: Option<&str>) -> BTCTRResult<Pair> {
         let endpoint = format!("{}{}", self.base_url, "/api/v2/ticker");
         let url = match pair_symbol {
-            Some(pair) =>Url::parse_with_params(&endpoint, &[("pairSymbol", pair)])?,
+            Some(pair) => Url::parse_with_params(&endpoint, &[("pairSymbol", pair)])?,
             None => Url::parse(&endpoint)?,
         };
         let json = reqwest::get(url.as_str()).await?.json().await?;
@@ -73,7 +73,17 @@ impl Api {
         Ok(json)
     }
     
-    pub fn order_book(pair_symbol: &str, limit: Option<u32>) {}
+    pub async fn order_book(&self, pair_symbol: &str, limit: Option<u32>) -> BTCTRResult<OrderBook> {
+        let endpoint = format!("{}{}", self.base_url, "/api/v2/orderbook");
+        let pair = &[("pairSymbol", pair_symbol)];
+        let mut url = Url::parse_with_params(&endpoint, pair)?;
+        if let Some(l) = limit {
+            url.query_pairs_mut().append_pair("limit", &l.to_string());
+        }
+        let json = reqwest::get(url.as_str()).await?.json().await?;
+        Ok(json)
+    }
+
     pub fn trades(pair_symbol: &str, last: Option<u32>) {}
     pub fn ohlc_data(pair_symbol: &str, from: u64, to: u64) {}
     pub fn kline_data(pair_symbol: &str, resolution: u64, from: u64, to: u64) {}
