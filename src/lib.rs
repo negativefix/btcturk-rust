@@ -6,14 +6,15 @@ use chrono::{self, Utc, DateTime};
 // TODO - check if utc nonces matches the server
 
 // move api key and screet to env
-pub const BASE_URL: &str = "https://api.btcturk.com";
+pub const BASE_API_URL: &str = "https://api.btcturk.com";
+pub const GRAPH_API_URL: &str = "https://graph-api.btcturk.com";
 
 mod types;
 mod errors;
 
 pub use errors::BTCTRResult;
 use reqwest::{Response, Url};
-use types::{ExchangeInfo, Pair, OrderBook, Trade};
+use types::{ExchangeInfo, Pair, OrderBook, Trade, Ohlc};
 
 // Config for authenticated requests
 // better name would be AuthConfig
@@ -96,8 +97,21 @@ impl Api {
     }
 
 
-    // Graph Data
-    pub fn ohlc_data(pair_symbol: &str, from: u64, to: u64) {}
+
+    pub async fn ohlc_data(pair_symbol: &str, from: Option<u64>, to: Option<u64>) -> BTCTRResult<Ohlc> {
+        let mut url = Url::parse(GRAPH_API_URL)?;
+        url.set_path("/v1/klines/history");
+        url.query_pairs_mut().append_pair("symbol", pair_symbol);
+        if let Some(f) = from {
+            url.query_pairs_mut().append_pair("from", &f.to_string());
+        }
+        if let Some(t) = to {
+            url.query_pairs_mut().append_pair("to", &t.to_string());
+        }
+        let json = reqwest::get(url.as_str()).await?.json().await?;
+        Ok(json)
+    }
+
     pub fn kline_data(pair_symbol: &str, resolution: u64, from: u64, to: u64) {}
 
     // Private api endpoints
