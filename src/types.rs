@@ -143,7 +143,7 @@ pub struct OrderBook {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct OrderBookData {
-   pub timestamp: String,
+   pub timestamp: f64,
    pub bids: Vec<Vec<String>>,
    pub asks: Vec<Vec<String>>,
 }
