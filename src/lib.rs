@@ -14,7 +14,7 @@ mod errors;
 
 pub use errors::BTCTRResult;
 use reqwest::{Response, Url};
-use types::{ExchangeInfo, Pair, OrderBook, Trade, Ohlc};
+use types::{ExchangeInfo, Pair, OrderBook, Trade, Ohlc, Kline};
 
 // Config for authenticated requests
 // better name would be AuthConfig
@@ -112,7 +112,19 @@ impl Api {
         Ok(json)
     }
 
-    pub fn kline_data(pair_symbol: &str, resolution: u64, from: u64, to: u64) {}
+    pub async fn kline_data(pair_symbol: &str, resolution: u64, from: u64, to: u64) -> BTCTRResult<Kline>{
+        let mut url = Url::parse(GRAPH_API_URL)?;
+        url.set_path("/v1/klines/history");
+        url
+            .query_pairs_mut()
+            .append_pair("symbol", pair_symbol)
+            .append_pair("to", &to.to_string())
+            .append_pair("from", &from.to_string())
+            .append_pair("resolution", &resolution.to_string());
+        let json = reqwest::get(url.as_str()).await?.json().await?;
+        Ok(json)
+
+    }
 
     // Private api endpoints
     pub fn balances() {}
