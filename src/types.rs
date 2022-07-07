@@ -205,7 +205,8 @@ pub struct OhlcPair {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Kline {
-    s: String,
+    s: Option<String>,
+    nb: Option<u64>,
     t: Vec<u64>,
     h: Vec<f64>,
     o: Vec<f64>,
