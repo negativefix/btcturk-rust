@@ -98,7 +98,7 @@ impl Api {
 
 
 
-    pub async fn ohlc_data(pair_symbol: &str, from: Option<u64>, to: Option<u64>) -> BTCTRResult<Ohlc> {
+    pub async fn ohlc_data(&self, pair_symbol: &str, from: Option<u64>, to: Option<u64>) -> BTCTRResult<Ohlc> {
         let mut url = Url::parse(GRAPH_API_URL)?;
         url.set_path("/v1/klines/history");
         url.query_pairs_mut().append_pair("symbol", pair_symbol);
@@ -112,7 +112,7 @@ impl Api {
         Ok(json)
     }
 
-    pub async fn kline_data(pair_symbol: &str, resolution: u64, from: u64, to: u64) -> BTCTRResult<Kline>{
+    pub async fn kline_data(&self, pair_symbol: &str, resolution: u64, from: u64, to: u64) -> BTCTRResult<Kline>{
         let mut url = Url::parse(GRAPH_API_URL)?;
         url.set_path("/v1/klines/history");
         url
@@ -123,7 +123,6 @@ impl Api {
             .append_pair("resolution", &resolution.to_string());
         let json = reqwest::get(url.as_str()).await?.json().await?;
         Ok(json)
-
     }
 
     // Private api endpoints
