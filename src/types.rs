@@ -151,7 +151,7 @@ pub struct OrderBookData {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Trade {
-    pub data: Option<TradeData>,
+    pub data: Option<Vec<TradePair>>,
     pub success: bool,
     pub message: Option<String>,
     pub code: u32,
@@ -160,7 +160,6 @@ pub struct Trade {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct TradeData {
-    pub data: Option<Vec<TradePair>>,
     pub success: bool,
     pub message: Option<String>,
     pub code: u32,
