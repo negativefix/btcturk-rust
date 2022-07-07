@@ -40,4 +40,26 @@ async fn kline_default() -> BTCTRResult<()> {
     let api = Api::new(BASE_API_URL, None);
     let _json = api.kline_data("BTCTRY", 80, 1602925320, 1603152000).await?;
     Ok(())
+}
+
+#[tokio::test]
+async fn kline_invalid_resolution() -> BTCTRResult<()> {
+    let api = Api::new(BASE_API_URL, None);
+    let _json = api.kline_data("BTCTRY", 0, 1602925320, 1603152000).await?;
+    Ok(())
+}  
+
+#[tokio::test]
+async fn kline_invalid_pair() -> BTCTRResult<()> {
+    let api = Api::new(BASE_API_URL, None);
+    let _json = api.kline_data("brx22", 90, 1602925320, 1603152000).await?;
+    Ok(())
+}
+
+
+#[tokio::test]
+async fn kline_invalid_range() -> BTCTRResult<()> {
+    let api = Api::new(BASE_API_URL, None);
+    let _json = api.kline_data("BTCTRY", 90, 0, 0).await?;
+    Ok(())
 }  
