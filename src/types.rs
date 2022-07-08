@@ -215,7 +215,29 @@ pub struct Kline {
 }
 
 
+// Url query params
+pub struct OhlcParams {
+    pair_symbol: String,
+    from: Option<u64>,
+    to: Option<u64>,
+}
 
+pub struct KlineParams {
+    pair_symbol: String,
+    from: u64,
+    to: u64,
+    resolution: u64,
+}
+
+pub struct TradesParams {
+    pair_symbol: String,
+    last: Option<u32>,
+}
+
+pub struct OrderBookParams {
+    pair_symbol: String,
+    limit: Option<u32>,
+}
 
 
 
