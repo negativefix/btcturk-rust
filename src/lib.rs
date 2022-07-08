@@ -14,7 +14,18 @@ mod errors;
 
 pub use errors::BTCTRResult;
 use reqwest::{Response, Url};
-use types::{ExchangeInfo, Pair, OrderBook, Trade, Ohlc, Kline};
+use types::{
+    ExchangeInfo, 
+    Pair, 
+    OrderBook, 
+    Trade, 
+    Ohlc, 
+    Kline, 
+    OhlcParams, 
+    KlineParams,
+    TradesParams, 
+    OrderBookParams
+};
 
 // Config for authenticated requests
 // better name would be AuthConfig
@@ -74,7 +85,7 @@ impl Api {
         Ok(json)
     }
     
-    pub async fn order_book(&self, pair_symbol: &str, limit: Option<u32>) -> BTCTRResult<OrderBook> {
+    pub async fn order_book(&self, params: OrderBookParams) -> BTCTRResult<OrderBook> {
         let endpoint = format!("{}{}", self.base_url, "/api/v2/orderbook");
         let pair = &[("pairSymbol", pair_symbol)];
         let mut url = Url::parse_with_params(&endpoint, pair)?;
@@ -85,7 +96,7 @@ impl Api {
         Ok(json)
     }
 
-    pub async fn trades(&self, pair_symbol: &str, last: Option<u32>) -> BTCTRResult<Trade> {
+    pub async fn trades(&self, params: TradesParams) -> BTCTRResult<Trade> {
         let endpoint = format!("{}{}", self.base_url, "/api/v2/trades");
         let pair = &[("pairSymbol", pair_symbol)];
         let mut url = Url::parse_with_params(&endpoint, pair)?;
@@ -96,9 +107,7 @@ impl Api {
         Ok(json)
     }
 
-
-
-    pub async fn ohlc_data(&self, pair_symbol: &str, from: Option<u64>, to: Option<u64>) -> BTCTRResult<Ohlc> {
+    pub async fn ohlc_data(&self, params: OhlcParams) -> BTCTRResult<Ohlc> {
         let mut url = Url::parse(GRAPH_API_URL)?;
         url.set_path("/v1/klines/history");
         url.query_pairs_mut().append_pair("symbol", pair_symbol);
@@ -112,7 +121,7 @@ impl Api {
         Ok(json)
     }
 
-    pub async fn kline_data(&self, pair_symbol: &str, resolution: u64, from: u64, to: u64) -> BTCTRResult<Kline>{
+    pub async fn kline_data(&self, params: KlineParams) -> BTCTRResult<Kline>{
         let mut url = Url::parse(GRAPH_API_URL)?;
         url.set_path("/v1/klines/history");
         url
