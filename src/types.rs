@@ -216,27 +216,31 @@ pub struct Kline {
 
 
 // Url query params
+#[derive(Serialize)]
 pub struct OhlcParams {
-    pair_symbol: String,
-    from: Option<u64>,
-    to: Option<u64>,
+    pub pair_symbol: String,
+    pub from: Option<u64>,
+    pub to: Option<u64>,
 }
 
+#[derive(Serialize)]
 pub struct KlineParams {
-    pair_symbol: String,
-    from: u64,
-    to: u64,
-    resolution: u64,
+    pub pair_symbol: String,
+    pub from: u64,
+    pub to: u64,
+    pub resolution: u64,
 }
 
+#[derive(Serialize)]
 pub struct TradesParams {
-    pair_symbol: String,
-    last: Option<u32>,
+    pub pair_symbol: String,
+    pub last: Option<u32>,
 }
 
+#[derive(Serialize)]
 pub struct OrderBookParams {
-    pair_symbol: String,
-    limit: Option<u32>,
+    pub pair_symbol: String,
+    pub limit: Option<u32>,
 }
 
 
