@@ -9,7 +9,6 @@ pub struct ServerTime {
     server_time2: String,
 }
 
-
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ExchangeInfo {
@@ -233,7 +232,7 @@ pub struct OhlcParams<'a> {
 
 #[derive(Serialize)]
 pub struct KlineParams<'a> {
-    pub pair_symbol: &'a str,
+    pub symbol: &'a str,
     pub from: u64,
     pub to: u64,
     pub resolution: u64,
