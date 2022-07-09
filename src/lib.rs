@@ -70,7 +70,10 @@ impl Api {
     // Public api endpoints
     pub async fn exchange_info(&self) -> BTCTRResult<ExchangeInfo> {
         let url = create_public_endpoint_url("/api/v2/server/exchangeinfo", false)?;
-        let data = reqwest::get(url.as_str()).await?.json().await?;
+        let data = reqwest::get(url.as_str()).await?
+            .error_for_status()?
+            .json()
+            .await?;
         Ok(data)
     }
 
@@ -83,7 +86,10 @@ impl Api {
                 .query_pairs_mut()
                 .append_pair("pairSymbol", pair);
         }
-        let data = reqwest::get(url.as_str()).await?.json().await?;
+        let data = reqwest::get(url.as_str()).await?
+            .error_for_status()?
+            .json()
+            .await?;
         Ok(data)
     }
 
@@ -92,7 +98,10 @@ impl Api {
         url
             .query_pairs_mut()
             .append_pair("symbol", symbol);
-        let data = reqwest::get(url.as_str()).await?.json().await?;
+        let data = reqwest::get(url.as_str()).await?
+            .error_for_status()?
+            .json()
+            .await?;
         Ok(data)
     }
     
@@ -101,7 +110,10 @@ impl Api {
         let params = OrderBookParams { pair_symbol, limit };
         let url_params = serde_url_params::to_string(&params)?;
         url.set_query(Some(&url_params));
-        let data = reqwest::get(url.as_str()).await?.json().await?;
+        let data = reqwest::get(url.as_str()).await?
+            .error_for_status()?
+            .json()
+            .await?;
         Ok(data)
     }
 
@@ -110,7 +122,10 @@ impl Api {
         let params = TradesParams { pair_symbol, last };
         let url_params = serde_url_params::to_string(&params)?;
         url.set_query(Some(&url_params));
-        let data = reqwest::get(url.as_str()).await?.json().await?;
+        let data = reqwest::get(url.as_str()).await?
+            .error_for_status()?
+            .json()
+            .await?;
         Ok(data)
     }
 
@@ -119,7 +134,10 @@ impl Api {
         let params = OhlcParams { pair_symbol, from, to };
         let url_params = serde_url_params::to_string(&params)?;
         url.set_query(Some(&url_params));
-        let data = reqwest::get(url.as_str()).await?.json().await?;
+        let data = reqwest::get(url.as_str()).await?
+            .error_for_status()?
+            .json()
+            .await?;
         Ok(data)
     }
 
@@ -128,7 +146,10 @@ impl Api {
         let params = KlineParams { pair_symbol, from, to, resolution };
         let query_params = serde_url_params::to_string(&params)?;
         url.set_query(Some(&query_params));
-        let data = reqwest::get(url.as_str()).await?.json().await?;
+        let data = reqwest::get(url.as_str()).await?
+            .error_for_status()?
+            .json()
+            .await?;
         Ok(data)
     }
 
