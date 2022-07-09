@@ -151,9 +151,9 @@ impl Api {
         Ok(data)
     }
 
-    pub async fn kline_data(&self, pair_symbol: &str, resolution: u64, from: u64, to: u64) -> BTCTRResult<Kline>{
+    pub async fn kline_data(&self, symbol: &str, resolution: u64, from: u64, to: u64) -> BTCTRResult<Kline>{
         let mut url = create_public_endpoint_url("/v1/klines/history", true)?;
-        let params = KlineParams { pair_symbol, from, to, resolution };
+        let params = KlineParams { symbol, from, to, resolution };
         let query_params = serde_url_params::to_string(&params)?;
         url.set_query(Some(&query_params));
         let data = reqwest::get(url.as_str()).await?
