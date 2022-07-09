@@ -6,6 +6,7 @@ pub enum Error{
     Network(reqwest::Error),
     JsonParse(serde_json::Error),
     UrlParse(url::ParseError),
+    QueryParamsParse(serde_url_params::Error),
 }
 
 
@@ -24,5 +25,11 @@ impl From<serde_json::Error> for Error {
 impl From<url::ParseError> for Error {
     fn from(e: url::ParseError) -> Error {
         Error::UrlParse(e)
+    }
+}
+
+impl From<serde_url_params::Error> for Error {
+    fn from(e: serde_url_params::Error) -> Error {
+        Error::QueryParamsParse(e)
     }
 }
