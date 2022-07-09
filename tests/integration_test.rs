@@ -1,6 +1,7 @@
 use btcturk_rust::{BTCTRResult, Api, BASE_API_URL, GRAPH_API_URL};
 
 #[tokio::test]
+#[ignore]
 async fn exchange_info() -> BTCTRResult<()> {
     let api = Api::new(BASE_API_URL, None);
     let _json = api.exchange_info().await?;
@@ -8,6 +9,7 @@ async fn exchange_info() -> BTCTRResult<()> {
 }
 
 #[tokio::test]
+#[ignore]
 async fn ticker_pair() -> BTCTRResult<()> {
     let api = Api::new(BASE_API_URL, None);
     let _json = api.pair(None).await?;
@@ -15,6 +17,7 @@ async fn ticker_pair() -> BTCTRResult<()> {
 }
 
 #[tokio::test]
+#[ignore]
 async fn ticker_currency() -> BTCTRResult<()> {
     let api = Api::new(BASE_API_URL, None);
     let _json = api.currency("BTCTRY").await?;
@@ -22,6 +25,7 @@ async fn ticker_currency() -> BTCTRResult<()> {
 }
 
 #[tokio::test]
+#[ignore]
 async fn order_book() -> BTCTRResult<()> {
     let api = Api::new(BASE_API_URL, None);
     let _json = api.order_book("BTCTRY", None).await?;
@@ -29,6 +33,7 @@ async fn order_book() -> BTCTRResult<()> {
 }
 
 #[tokio::test]
+#[ignore]
 async fn trade() -> BTCTRResult<()> {
     let api = Api::new(BASE_API_URL, None);
     let _json = api.trades("BTCTRY", None).await?;
@@ -43,10 +48,10 @@ async fn kline_default() -> BTCTRResult<()> {
 }
 
 #[tokio::test]
-async fn kline_invalid_resolution() -> BTCTRResult<()> {
+#[should_panic]
+async fn kline_invalid_resolution() {
     let api = Api::new(BASE_API_URL, None);
-    let _json = api.kline_data("BTCTRY", 0, 1602925320, 1603152000).await?;
-    Ok(())
+    let _json = api.kline_data("BTCTRY", 0, 1602925320, 1603152000).await.unwrap();
 }  
 
 #[tokio::test]
