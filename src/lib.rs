@@ -15,6 +15,7 @@ mod errors;
 pub use errors::BTCTRResult;
 use reqwest::{Response, Url};
 pub use types::{
+    ServerTime,
     ExchangeInfo, 
     Pair, 
     OrderBook, 
@@ -68,6 +69,15 @@ impl Api {
     }
     
     // Public api endpoints
+    pub async fn server_time(&self) -> BTCTRResult<ServerTime> {
+        let url = create_public_endpoint_url("/api/v2/server/time", false)?;
+        let data = reqwest::get(url.as_str()).await?
+            .error_for_status()?
+            .json()
+            .await?;
+        Ok(data)
+    }
+
     pub async fn exchange_info(&self) -> BTCTRResult<ExchangeInfo> {
         let url = create_public_endpoint_url("/api/v2/server/exchangeinfo", false)?;
         let data = reqwest::get(url.as_str()).await?
