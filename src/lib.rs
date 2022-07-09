@@ -123,7 +123,7 @@ impl Api {
         Ok(data)
     }
 
-    pub async fn kline_data(&self, pair_symbol: &str, from: u64, to: u64, resolution: u64) -> BTCTRResult<Kline>{
+    pub async fn kline_data(&self, pair_symbol: &str, resolution: u64, from: u64, to: u64) -> BTCTRResult<Kline>{
         let mut url = create_public_endpoint_url("/v1/klines/history", true)?;
         let params = KlineParams { pair_symbol, from, to, resolution };
         let query_params = serde_url_params::to_string(&params)?;
