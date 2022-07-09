@@ -4,6 +4,14 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
+pub struct ServerTime {
+    server_time: u64,
+    server_time2: String,
+}
+
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct ExchangeInfo {
     data: Data,
     pub success: bool,
@@ -217,29 +225,29 @@ pub struct Kline {
 
 // Url query params
 #[derive(Serialize)]
-pub struct OhlcParams {
-    pub pair_symbol: String,
+pub struct OhlcParams<'a> {
+    pub pair_symbol: &'a str,
     pub from: Option<u64>,
     pub to: Option<u64>,
 }
 
 #[derive(Serialize)]
-pub struct KlineParams {
-    pub pair_symbol: String,
+pub struct KlineParams<'a> {
+    pub pair_symbol: &'a str,
     pub from: u64,
     pub to: u64,
     pub resolution: u64,
 }
 
 #[derive(Serialize)]
-pub struct TradesParams {
-    pub pair_symbol: String,
+pub struct TradesParams<'a> {
+    pub pair_symbol: &'a str,
     pub last: Option<u32>,
 }
 
 #[derive(Serialize)]
-pub struct OrderBookParams {
-    pub pair_symbol: String,
+pub struct OrderBookParams<'a> {
+    pub pair_symbol: &'a str,
     pub limit: Option<u32>,
 }
 
