@@ -4,11 +4,6 @@ use chrono::{self, Utc, DateTime};
 // TODO - add integrations tests for the public/private endpoints/
 // TODO - configure .env to read apikey and secret from environment within integration tests
 // TODO - check if utc nonces matches the server
-
-// move api key and screet to env
-pub const BASE_API_URL: &str = "https://api.btcturk.com";
-pub const GRAPH_API_URL: &str = "https://graph-api.btcturk.com";
-
 mod types;
 mod errors;
 
@@ -27,6 +22,11 @@ pub use types::{
     TradesParams, 
     OrderBookParams
 };
+
+
+// move api key and screet to env
+pub const BASE_API_URL: &str = "https://api.btcturk.com";
+pub const GRAPH_API_URL: &str = "https://graph-api.btcturk.com";
 
 
 fn create_endpoint_url(path: &str, graph: bool) -> Result<reqwest::Url, url::ParseError> {
