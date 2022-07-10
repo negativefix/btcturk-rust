@@ -2,6 +2,15 @@ use btcturk_rust::{BTCTRResult, Api, BASE_API_URL, GRAPH_API_URL};
 
 #[tokio::test]
 #[ignore]
+async fn server_time() -> BTCTRResult<()> {
+    let api = Api::new(BASE_API_URL, None);
+    let _json = api.server_time().await?;
+    Ok(())
+}
+
+
+#[tokio::test]
+#[ignore]
 async fn exchange_info() -> BTCTRResult<()> {
     let api = Api::new(BASE_API_URL, None);
     let _json = api.exchange_info().await?;
