@@ -184,8 +184,9 @@ impl PrivateApi {
         order_method: &str, 
         order_type: &str, 
         pair_symbol: &str
-        ) {}
+        ) {
 
+    }
 }
 
 
