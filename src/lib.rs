@@ -54,21 +54,11 @@ impl Config {
     }
 }
 
-pub struct Api {
-    base_url: &'static str,
-    config: Option<Config>
-}
 
-impl Api {
+pub struct PublicApi;
 
-    pub fn new(base_url: &'static str, config: Option<Config>) -> Self {
-        Self {
-            base_url,
-            config,
-        }
-    }
-    
-    // Public api endpoints
+impl PublicApi {
+
     pub async fn server_time(&self) -> BTCTRResult<ServerTime> {
         let url = create_endpoint_url("/api/v2/server/time", false)?;
         let data = reqwest::get(url.as_str()).await?
@@ -162,7 +152,22 @@ impl Api {
             .await?;
         Ok(data)
     }
+}
 
+pub struct PrivateApi {
+    config: Config,
+    nonce: u64,
+}
+
+impl PrivateApi {
+
+    pub fn new(config: Config) -> Self {
+        Self {
+            config,
+            nonce: 12
+        }
+    }
+   
     // Private api endpoints
     pub fn balances() {}
     pub fn all_transactions() {}
