@@ -77,8 +77,6 @@ impl PublicApi {
         Ok(data)
     }
 
-    // no need to pass self since it wont be used within the function
-    // TODO - move this into a module
     pub async fn pair(&self, pair_symbol: Option<&str>) -> BTCTRResult<Pair> {
         let mut url = create_endpoint_url("/api/v2/ticker", false)?;
         if let Some(pair) = pair_symbol {
