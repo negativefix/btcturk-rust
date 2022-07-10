@@ -1,14 +1,15 @@
 use chrono::{self, Utc, DateTime};
+use reqwest::Url;
 
 // TODO - create types for responses
 // TODO - add integrations tests for the public/private endpoints/
 // TODO - configure .env to read apikey and secret from environment within integration tests
 // TODO - check if utc nonces matches the server
+
 mod types;
 mod errors;
 
 pub use errors::BTCTRResult;
-use reqwest::{Response, Url};
 pub use types::{
     ServerTime,
     ExchangeInfo, 
