@@ -1,5 +1,3 @@
-use core::f64;
-
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug)]
@@ -221,6 +219,24 @@ pub struct Kline {
     v: Vec<f64>,
 }
 
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct AccountBalance {
+    pub data: Vec<AccountBalanceData>,
+    pub success: bool,
+    pub message: Option<String>,
+    pub code: u32,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct AccountBalanceData {
+    pub asset: String,
+    pub asset_name: String,
+    pub balance: String,
+    pub locked: String,
+    pub free: String,
+}
 
 // Url query params
 #[derive(Serialize)]
@@ -249,7 +265,4 @@ pub struct OrderBookParams<'a> {
     pub pair_symbol: &'a str,
     pub limit: Option<u32>,
 }
-
-
-
 
